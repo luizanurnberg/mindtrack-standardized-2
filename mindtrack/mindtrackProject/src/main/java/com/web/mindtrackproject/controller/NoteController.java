@@ -46,8 +46,8 @@ public class NoteController {
         return ResponseEntity.status(200).body(notes);
     }
 
-    @PutMapping("/status/{id}")
-    public ResponseEntity<Note> updateNoteStatus(
+    @PutMapping("/statusCreated/{id}")
+    public ResponseEntity<Note> updateNoteStatusCreated(
             @PathVariable Long id,
             @RequestParam("status") String status
     ) {
@@ -56,7 +56,24 @@ public class NoteController {
         if (optionalNote.isPresent()) {
             Note note = optionalNote.get();
             note.setStatus(status);
-            Note updatedNote = noteService.updateNoteStatus(note);
+            Note updatedNote = noteService.updateNoteStatusCreated(note);
+            return ResponseEntity.ok(updatedNote);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/statusTrash/{id}")
+    public ResponseEntity<Note> updateNoteStatusTrash(
+            @PathVariable Long id,
+            @RequestParam("status") String status
+    ) {
+        Optional<Note> optionalNote = noteService.getNoteById(id);
+
+        if (optionalNote.isPresent()) {
+            Note note = optionalNote.get();
+            note.setStatus(status);
+            Note updatedNote = noteService.updateNoteStatusTrash(note);
             return ResponseEntity.ok(updatedNote);
         }
 

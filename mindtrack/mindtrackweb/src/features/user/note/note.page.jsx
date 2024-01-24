@@ -120,7 +120,7 @@ function NotePage() {
       const novoStatus = "Lixeira";
 
       const response = await fetch(
-        `http://localhost:8080/api/note/status/${noteId}?status=${novoStatus}`,
+        `http://localhost:8080/api/note/statusTrash/${noteId}?status=${novoStatus}`,
         {
           method: "PUT",
           headers: {

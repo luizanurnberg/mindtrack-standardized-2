@@ -2,6 +2,8 @@ package com.web.mindtrackproject.service;
 
 import com.web.mindtrackproject.entity.Note;
 import com.web.mindtrackproject.repository.NoteRepository;
+import com.web.mindtrackproject.service.state.CreatedNoteStatus;
+import com.web.mindtrackproject.service.state.TrashNoteStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import java.util.Optional;
 public class NoteService {
     private final NoteRepository noteRepository;
 
+    private CreatedNoteStatus createdNoteStatus;
+
+    private TrashNoteStatus trashNoteStatus;
     public Note createNote(Note note) {
         return noteRepository.save(note);
     }
@@ -28,8 +33,19 @@ public class NoteService {
         return null;
     }
 
-    public Note updateNoteStatus(Note note) {
+    public Note updateNoteStatusCreated(Note note) {
         if (noteRepository.existsById(note.getId())) {
+            createdNoteStatus.updateNoteStatus(note);
+            System.out.println(note);
+            return noteRepository.save(note);
+        }
+        return null;
+    }
+
+    public Note updateNoteStatusTrash(Note note) {
+        if (noteRepository.existsById(note.getId())) {
+            trashNoteStatus.updateNoteStatus(note);
+            System.out.println(note);
             return noteRepository.save(note);
         }
         return null;

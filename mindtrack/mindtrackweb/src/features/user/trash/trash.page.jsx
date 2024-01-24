@@ -83,7 +83,7 @@ function TrashPage() {
       const novoStatus = "Criada";
 
       const response = await fetch(
-        `http://localhost:8080/api/note/status/${noteId}?status=${novoStatus}`,
+        `http://localhost:8080/api/note/statusCreated/${noteId}?status=${novoStatus}`,
         {
           method: "PUT",
           headers: {
