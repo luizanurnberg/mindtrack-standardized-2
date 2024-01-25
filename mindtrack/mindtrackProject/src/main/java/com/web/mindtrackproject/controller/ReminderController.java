@@ -1,7 +1,10 @@
 package com.web.mindtrackproject.controller;
 
 import com.web.mindtrackproject.entity.Reminder;
+import com.web.mindtrackproject.repository.ReminderRepository;
 import com.web.mindtrackproject.service.ReminderService;
+import com.web.mindtrackproject.service.visitor.DateFilter;
+import com.web.mindtrackproject.service.visitor.ReminderVisitor;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ReminderController {
     private final ReminderService reminderService;
+    private final ReminderRepository reminderRepository;
 
     @PostMapping
     public ResponseEntity<Reminder> createReminder(@RequestBody Reminder reminder) {
@@ -42,8 +46,11 @@ public class ReminderController {
     }
 
     @GetMapping("/date/{date}")
-    public ResponseEntity<List<Reminder>> getAllRemindersByDate(@PathVariable LocalDate date) {
-        List<Reminder> reminders = reminderService.getAllRemindersByDate(date);
+    public ResponseEntity<List<Reminder>> getAllRemindersByDate(
+            @PathVariable LocalDate date,
+            @RequestParam(name = "filterVisitor", required = false) ReminderVisitor filterVisitor
+    ) {
+        List<Reminder> reminders = reminderService.getAllRemindersByDate(date, filterVisitor);
         return ResponseEntity.status(200).body(reminders);
     }
 
@@ -65,20 +72,11 @@ public class ReminderController {
     }
 
     @PutMapping("/content/{id}")
-    public ResponseEntity<Reminder> updateReminderContent(
-            @PathVariable Long id,
-            @RequestParam("content") String content
+    public ResponseEntity<List<Reminder>> getAllRemindersByDate(
+            @PathVariable LocalDate date
     ) {
-        Optional<Reminder> optionalReminder = reminderService.getReminderById(id);
-
-        if (optionalReminder.isPresent()) {
-            Reminder reminder = optionalReminder.get();
-            reminder.setContent(content);
-            Reminder updatedReminder = reminderService.updateReminderContent(reminder);
-            return ResponseEntity.ok(updatedReminder);
-        }
-
-        return ResponseEntity.notFound().build();
+        List<Reminder> reminders = reminderService.getAllRemindersByDate(date, new DateFilter(reminderRepository));
+        return ResponseEntity.status(200).body(reminders);
     }
 
     @PutMapping("/{id}")

@@ -2,10 +2,10 @@ package com.web.mindtrackproject.service;
 
 import com.web.mindtrackproject.entity.Reminder;
 import com.web.mindtrackproject.repository.ReminderRepository;
+import com.web.mindtrackproject.service.visitor.ReminderVisitor;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +51,9 @@ public class ReminderService {
         return reminderRepository.getUserReminders(userId);
     }
 
-    public List<Reminder> getAllRemindersByDate(LocalDate date) {
-        return reminderRepository.getRemindersByDate(date);
+    public List<Reminder> getAllRemindersByDate(LocalDate date, ReminderVisitor filterVisitor) {
+        List<Reminder> remindersByDate = reminderRepository.getRemindersByDate(date);
+
+        return remindersByDate;
     }
 }

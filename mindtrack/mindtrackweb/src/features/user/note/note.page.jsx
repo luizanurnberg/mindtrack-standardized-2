@@ -75,7 +75,7 @@ function NotePage() {
     try {
       const currentDate = new Date();
       const noteData = {
-        color: "pink",
+        color: "white",
         content: newNote,
         date: currentDate.toISOString(),
         userId: userId,
