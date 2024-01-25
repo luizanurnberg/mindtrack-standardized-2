@@ -2,6 +2,8 @@ package com.web.mindtrackproject.service;
 
 import com.web.mindtrackproject.entity.Note;
 import com.web.mindtrackproject.repository.NoteRepository;
+import com.web.mindtrackproject.service.decorator.ColorDecorator;
+import com.web.mindtrackproject.service.decorator.NoteInterface;
 import com.web.mindtrackproject.service.state.CreatedNoteStatus;
 import com.web.mindtrackproject.service.state.TrashNoteStatus;
 import lombok.AllArgsConstructor;
@@ -12,12 +14,14 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class NoteService {
-    private final NoteRepository noteRepository;
+public class NoteService implements NoteInterface {
 
     private CreatedNoteStatus createdNoteStatus;
 
     private TrashNoteStatus trashNoteStatus;
+
+    private NoteRepository noteRepository;
+
     public Note createNote(Note note) {
         return noteRepository.save(note);
     }
@@ -51,11 +55,10 @@ public class NoteService {
         return null;
     }
 
+    @Override
     public Note updateNoteColor(Note note) {
-        if (noteRepository.existsById(note.getId())) {
-            return noteRepository.save(note);
-        }
-        return null;
+        NoteInterface colorDecorator = new ColorDecorator(this, noteRepository);
+        return colorDecorator.updateNoteColor(note);
     }
 
     public Note updateNoteContent(Note note) {
@@ -64,7 +67,7 @@ public class NoteService {
         }
         return null;
     }
-
+    @Override
     public Optional<Note> getNoteById(Long id) {
         return noteRepository.findById(id);
     }

@@ -120,7 +120,7 @@ function NotePage() {
       const novoStatus = "Lixeira";
 
       const response = await fetch(
-        `http://localhost:8080/api/note/statusTrash/${noteId}?status=${novoStatus}`,
+        `http://localhost:8080/api/note/status/${noteId}?status=${novoStatus}`,
         {
           method: "PUT",
           headers: {
@@ -259,6 +259,7 @@ function NotePage() {
         </Button>
         <Box sx={{ mt: 3, width: "100%", maxWidth: 400, maxHeight: "0vh" }}>
           {notes.map((note) => (
+            
             <Box
               key={note.id}
               sx={{
@@ -270,7 +271,7 @@ function NotePage() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                backgroundColor: "#" + note.color || "white",
+                backgroundColor: note.color || "white",
                 boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
               }}
             >

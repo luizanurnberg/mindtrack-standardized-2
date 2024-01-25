@@ -4,7 +4,7 @@ import com.web.mindtrackproject.entity.Note;
 
 import java.util.Optional;
 
-public interface NoteInterface {
-    Note updateNoteColor(Note note);
-    Optional<Note> getNoteById(Long id);
+    public interface NoteInterface {
+        Note updateNoteColor(Note note);
+        Optional<Note> getNoteById(Long id);
 }
