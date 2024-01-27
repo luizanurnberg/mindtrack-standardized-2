@@ -3,6 +3,7 @@ package com.web.mindtrackproject.service;
 import com.web.mindtrackproject.entity.Label;
 import com.web.mindtrackproject.entity.Note;
 import com.web.mindtrackproject.repository.LabelRepository;
+import com.web.mindtrackproject.service.composite.LabelComposite;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class LabelService {
+public class LabelService implements LabelComposite {
     private final LabelRepository labelRepository;
 
     public Label createLabel(Label label) {
