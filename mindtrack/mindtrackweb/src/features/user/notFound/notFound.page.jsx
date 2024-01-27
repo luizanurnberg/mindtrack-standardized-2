@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Typography, Container, CssBaseline } from "@mui/material";
 import NotFoundGif from "../notFound/gif/404.gif";
@@ -6,6 +6,27 @@ import NotFoundGif from "../notFound/gif/404.gif";
 const theme = createTheme();
 
 function NotFoundPage() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/404", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Page not found");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -28,7 +49,7 @@ function NotFoundPage() {
           PAGE NOT FOUND
         </Typography>
         <Typography variant="body1" color="textSecondary" paragraph>
-        A página solicitada não pôde ser encontrada.
+          A página solicitada não pôde ser encontrada.
         </Typography>
       </Container>
     </ThemeProvider>
